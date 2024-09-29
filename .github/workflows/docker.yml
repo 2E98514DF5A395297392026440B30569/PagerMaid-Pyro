@@ -6,7 +6,8 @@ on:
   workflow_dispatch: ~
   push:
     branches: [ master ]
-
+  watch: # 3.手动点击收藏
+    types: [started]
 jobs:
   build:
     runs-on: ubuntu-latest
