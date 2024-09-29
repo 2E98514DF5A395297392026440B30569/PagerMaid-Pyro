@@ -5,7 +5,7 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     PS1="\u@\h:\w \$ " \
     PAGERMAID_DIR=/pagermaid \
     DEBIAN_FRONTEND=noninteractive \
-    SOCKS5_PROXY=socks5://username:password@proxy_host:proxy_port  # 添加 SOCKS5 代理环境变量
+    SOCKS5_PROXY=socks5://username:password@proxy_host:proxy_port
 
 SHELL ["/bin/bash", "-c"]
 WORKDIR /pagermaid/workdir
