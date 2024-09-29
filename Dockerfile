@@ -4,7 +4,9 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     SHELL=/bin/bash \
     PS1="\u@\h:\w \$ " \
     PAGERMAID_DIR=/pagermaid \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+    SOCKS5_PROXY=socks5://username:password@proxy_host:proxy_port  # 添加 SOCKS5 代理环境变量
+
 SHELL ["/bin/bash", "-c"]
 WORKDIR /pagermaid/workdir
 RUN source ~/.bashrc \
@@ -76,6 +78,8 @@ RUN source ~/.bashrc \
     && git config --global pull.ff only \
     ## pip install
     && pip install -r requirements.txt \
+    ## 修复google和其他
+    && pip3 install cchardet magic_google jieba pinyin bs4 \
     ## 卸载编译依赖，清理安装缓存
     && sudo apt-get purge --auto-remove -y \
         build-essential \
@@ -105,5 +109,10 @@ RUN source ~/.bashrc \
         /tmp/* \
         /var/lib/apt/lists/* \
         /var/tmp/* \
-        ~/.cache
+        ~/.cache \
+  ## 设置代理
+    && echo "export http_proxy=${SOCKS5_PROXY}" >> /etc/profile \
+    && echo "export https_proxy=${SOCKS5_PROXY}" >> /etc/profile \
+    && echo "export all_proxy=${SOCKS5_PROXY}" >> /etc/profile
+    
 ENTRYPOINT ["sh","utils/docker-config.sh"]
